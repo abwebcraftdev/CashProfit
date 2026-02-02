@@ -48,66 +48,66 @@ const DashboardSettings = ({
     };
 
     return (
-        <div className="fixed inset-0 bg-black/50 z-50 flex items-center justify-center p-4">
-            <div className="bg-white rounded-xl shadow-2xl w-full max-w-2xl max-h-[90vh] overflow-y-auto">
-                <div className="p-6 border-b border-slate-100 flex justify-between items-center sticky top-0 bg-white z-10">
-                    <h3 className="text-xl font-bold text-slate-800">Paramètres d'affichage</h3>
-                    <button onClick={onClose} className="p-2 hover:bg-slate-100 rounded-full transition">
-                        <X className="w-5 h-5 text-slate-500" />
+        <div className="fixed inset-0 glass-overlay z-50 flex items-center justify-center p-4">
+            <div className="glass-strong rounded-2xl shadow-2xl w-full max-w-2xl max-h-[90vh] overflow-y-auto">
+                <div className="p-6 border-b border-white/10 flex justify-between items-center sticky top-0 glass-strong z-10 rounded-t-2xl">
+                    <h3 className="text-xl font-bold text-white">Paramètres d'affichage</h3>
+                    <button onClick={onClose} className="p-2 hover:bg-white/10 rounded-full transition cursor-pointer">
+                        <X className="w-5 h-5 text-white/70" />
                     </button>
                 </div>
 
                 <div className="p-6 space-y-8">
                     {/* Categories Section */}
                     <section>
-                        <h4 className="text-sm font-semibold text-slate-500 uppercase tracking-wider mb-4">Données à afficher</h4>
+                        <h4 className="text-sm font-semibold text-white/60 uppercase tracking-wider mb-4">Données à afficher</h4>
                         <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
-                            <label className="flex items-center gap-3 p-3 border rounded-lg cursor-pointer hover:bg-slate-50 transition">
-                                <div className={`w-5 h-5 rounded border flex items-center justify-center ${visibleCategories.revenue ? 'bg-indigo-600 border-indigo-600' : 'border-slate-300'}`}>
+                            <label className="flex items-center gap-3 p-3 glass rounded-lg cursor-pointer hover:bg-white/10 transition">
+                                <div className={`w-5 h-5 rounded border flex items-center justify-center ${visibleCategories.revenue ? 'bg-indigo-500 border-indigo-400' : 'border-white/30'}`}>
                                     {visibleCategories.revenue && <Check className="w-3 h-3 text-white" />}
                                 </div>
                                 <input type="checkbox" className="hidden" checked={visibleCategories.revenue} onChange={() => toggleCategory('revenue')} />
-                                <span className="text-slate-700 font-medium">Chiffre d'affaires</span>
+                                <span className="text-white font-medium">Chiffre d'affaires</span>
                             </label>
-                            <label className="flex items-center gap-3 p-3 border rounded-lg cursor-pointer hover:bg-slate-50 transition">
-                                <div className={`w-5 h-5 rounded border flex items-center justify-center ${visibleCategories.charges ? 'bg-indigo-600 border-indigo-600' : 'border-slate-300'}`}>
+                            <label className="flex items-center gap-3 p-3 glass rounded-lg cursor-pointer hover:bg-white/10 transition">
+                                <div className={`w-5 h-5 rounded border flex items-center justify-center ${visibleCategories.charges ? 'bg-indigo-500 border-indigo-400' : 'border-white/30'}`}>
                                     {visibleCategories.charges && <Check className="w-3 h-3 text-white" />}
                                 </div>
                                 <input type="checkbox" className="hidden" checked={visibleCategories.charges} onChange={() => toggleCategory('charges')} />
-                                <span className="text-slate-700 font-medium">Charges sociales</span>
+                                <span className="text-white font-medium">Charges sociales</span>
                             </label>
-                            <label className="flex items-center gap-3 p-3 border rounded-lg cursor-pointer hover:bg-slate-50 transition">
-                                <div className={`w-5 h-5 rounded border flex items-center justify-center ${visibleCategories.fixed ? 'bg-indigo-600 border-indigo-600' : 'border-slate-300'}`}>
+                            <label className="flex items-center gap-3 p-3 glass rounded-lg cursor-pointer hover:bg-white/10 transition">
+                                <div className={`w-5 h-5 rounded border flex items-center justify-center ${visibleCategories.fixed ? 'bg-indigo-500 border-indigo-400' : 'border-white/30'}`}>
                                     {visibleCategories.fixed && <Check className="w-3 h-3 text-white" />}
                                 </div>
                                 <input type="checkbox" className="hidden" checked={visibleCategories.fixed} onChange={() => toggleCategory('fixed')} />
-                                <span className="text-slate-700 font-medium">Frais fixes</span>
+                                <span className="text-white font-medium">Frais fixes</span>
                             </label>
-                            <label className="flex items-center gap-3 p-3 border rounded-lg cursor-pointer hover:bg-slate-50 transition">
-                                <div className={`w-5 h-5 rounded border flex items-center justify-center ${visibleCategories.oneshot ? 'bg-indigo-600 border-indigo-600' : 'border-slate-300'}`}>
+                            <label className="flex items-center gap-3 p-3 glass rounded-lg cursor-pointer hover:bg-white/10 transition">
+                                <div className={`w-5 h-5 rounded border flex items-center justify-center ${visibleCategories.oneshot ? 'bg-indigo-500 border-indigo-400' : 'border-white/30'}`}>
                                     {visibleCategories.oneshot && <Check className="w-3 h-3 text-white" />}
                                 </div>
                                 <input type="checkbox" className="hidden" checked={visibleCategories.oneshot} onChange={() => toggleCategory('oneshot')} />
-                                <span className="text-slate-700 font-medium">Frais ponctuels</span>
+                                <span className="text-white font-medium">Frais ponctuels</span>
                             </label>
-                            <label className="flex items-center gap-3 p-3 border rounded-lg cursor-pointer hover:bg-slate-50 transition">
-                                <div className={`w-5 h-5 rounded border flex items-center justify-center ${visibleCategories.net ? 'bg-indigo-600 border-indigo-600' : 'border-slate-300'}`}>
+                            <label className="flex items-center gap-3 p-3 glass rounded-lg cursor-pointer hover:bg-white/10 transition">
+                                <div className={`w-5 h-5 rounded border flex items-center justify-center ${visibleCategories.net ? 'bg-indigo-500 border-indigo-400' : 'border-white/30'}`}>
                                     {visibleCategories.net && <Check className="w-3 h-3 text-white" />}
                                 </div>
                                 <input type="checkbox" className="hidden" checked={visibleCategories.net} onChange={() => toggleCategory('net')} />
-                                <span className="text-slate-700 font-medium">Résultat net</span>
+                                <span className="text-white font-medium">Résultat net</span>
                             </label>
                         </div>
                     </section>
 
                     {/* Simulations Section */}
                     <section>
-                        <h4 className="text-sm font-semibold text-slate-500 uppercase tracking-wider mb-4">Simulations actives</h4>
+                        <h4 className="text-sm font-semibold text-white/60 uppercase tracking-wider mb-4">Simulations actives</h4>
                         <div className="space-y-3">
                             {simulations.filter(s => !s.isTest).map((sim, index) => (
-                                <div key={sim.id} className="flex items-center justify-between p-3 border rounded-lg hover:bg-slate-50 transition">
+                                <div key={sim.id} className="flex items-center justify-between p-3 glass rounded-lg hover:bg-white/10 transition">
                                     <label className="flex items-center gap-3 cursor-pointer">
-                                        <div className={`w-5 h-5 rounded border flex items-center justify-center ${visibleSimulations.includes(sim.id) ? 'bg-indigo-600 border-indigo-600' : 'border-slate-300'}`}>
+                                        <div className={`w-5 h-5 rounded border flex items-center justify-center ${visibleSimulations.includes(sim.id) ? 'bg-indigo-500 border-indigo-400' : 'border-white/30'}`}>
                                             {visibleSimulations.includes(sim.id) && <Check className="w-3 h-3 text-white" />}
                                         </div>
                                         <input
@@ -116,10 +116,10 @@ const DashboardSettings = ({
                                             checked={visibleSimulations.includes(sim.id)}
                                             onChange={() => toggleSimulation(sim.id)}
                                         />
-                                        <span className="text-slate-700 font-medium">{sim.name || `Simulation ${index + 1}`}</span>
+                                        <span className="text-white font-medium">{sim.name || `Simulation ${index + 1}`}</span>
                                     </label>
                                     <div className="flex items-center gap-2">
-                                        <span className="text-xs text-slate-500">Couleur:</span>
+                                        <span className="text-xs text-white/50">Couleur:</span>
                                         <input
                                             type="color"
                                             value={simulationColors[sim.id] || COLORS[index % COLORS.length]}
@@ -133,10 +133,10 @@ const DashboardSettings = ({
                     </section>
                 </div>
 
-                <div className="p-6 border-t border-slate-100 bg-slate-50 rounded-b-xl flex justify-end">
+                <div className="p-6 border-t border-white/10 glass rounded-b-2xl flex justify-end">
                     <button
                         onClick={onClose}
-                        className="px-6 py-2 bg-indigo-600 text-white rounded-lg font-medium hover:bg-indigo-700 transition shadow-sm"
+                        className="px-6 py-2 glass-button-primary rounded-lg font-medium transition shadow-lg cursor-pointer"
                     >
                         Terminé
                     </button>
@@ -313,8 +313,8 @@ export default function Dashboard({ simulations }) {
     const CustomTooltip = ({ active, payload, label }) => {
         if (active && payload && payload.length) {
             return (
-                <div className="bg-white p-3 border border-slate-200 rounded-lg shadow-lg">
-                    <p className="font-semibold mb-2">{label || payload[0].payload.label}</p>
+                <div className="glass-strong p-3 rounded-lg shadow-lg">
+                    <p className="font-semibold mb-2 text-white">{label || payload[0].payload.label}</p>
                     <div className="space-y-1 text-sm">
                         {payload.map((entry, index) => (
                             <div key={index} className="flex justify-between gap-4" style={{ color: entry.color }}>
@@ -353,7 +353,7 @@ export default function Dashboard({ simulations }) {
 
     if (annualData.length === 0 && periodData.length === 0) {
         return (
-            <div className="flex flex-col items-center justify-center h-full text-slate-500">
+            <div className="flex flex-col items-center justify-center h-full text-white/60">
                 <p className="text-lg">Aucune donnée à afficher.</p>
                 <p className="text-sm">Créez une simulation (non-test) pour voir les projections.</p>
             </div>
@@ -374,12 +374,12 @@ export default function Dashboard({ simulations }) {
                 setSimulationColors={setSimulationColors}
             />
 
-            <div className="flex flex-col md:flex-row items-center justify-between gap-4 bg-white p-4 rounded-xl shadow-lg">
+            <div className="flex flex-col md:flex-row items-center justify-between gap-4 glass-strong p-4 rounded-xl">
                 <div className="flex items-center gap-4">
-                    <h2 className="text-2xl font-bold text-slate-800">Tableau de bord</h2>
+                    <h2 className="text-2xl font-bold text-white">Tableau de bord</h2>
                     <button
                         onClick={() => setShowSettings(true)}
-                        className="p-2 bg-slate-100 hover:bg-slate-200 rounded-full transition text-slate-600"
+                        className="p-2 glass hover:bg-white/20 rounded-full transition text-white/70 cursor-pointer"
                         title="Paramètres d'affichage"
                     >
                         <Settings className="w-5 h-5" />
@@ -395,9 +395,9 @@ export default function Dashboard({ simulations }) {
                             value="monthly"
                             checked={viewType === 'monthly'}
                             onChange={(e) => setViewType(e.target.value)}
-                            className="w-4 h-4 text-indigo-600"
+                            className="w-4 h-4 text-indigo-500 bg-white/10 border-white/30"
                         />
-                        <span className="text-sm text-slate-700">Projection Mensuelle</span>
+                        <span className="text-sm text-white">Projection Mensuelle</span>
                     </label>
                     <label className="flex items-center gap-2 cursor-pointer">
                         <input
@@ -406,9 +406,9 @@ export default function Dashboard({ simulations }) {
                             value="financial"
                             checked={viewType === 'financial'}
                             onChange={(e) => setViewType(e.target.value)}
-                            className="w-4 h-4 text-indigo-600"
+                            className="w-4 h-4 text-indigo-500 bg-white/10 border-white/30"
                         />
-                        <span className="text-sm text-slate-700">Projection Financière</span>
+                        <span className="text-sm text-white">Projection Financière</span>
                     </label>
                 </div>
 
@@ -419,7 +419,7 @@ export default function Dashboard({ simulations }) {
                             <select
                                 value={selectedYear}
                                 onChange={(e) => setSelectedYear(parseInt(e.target.value))}
-                                className="px-3 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-transparent outline-none text-sm"
+                                className="px-3 py-2 glass-select rounded-lg focus:ring-2 focus:ring-white/30 outline-none text-sm"
                             >
                                 {yearOptions.map(year => (
                                     <option key={year} value={year}>{year}</option>
@@ -429,27 +429,27 @@ export default function Dashboard({ simulations }) {
                         <div className="flex gap-2">
                             <button
                                 onClick={() => setGranularity('month')}
-                                className={`px-3 py-1 rounded-lg text-sm transition ${granularity === 'month'
-                                    ? 'bg-indigo-600 text-white'
-                                    : 'bg-slate-100 text-slate-700 hover:bg-slate-200'
+                                className={`px-3 py-1 rounded-lg text-sm transition cursor-pointer ${granularity === 'month'
+                                    ? 'glass-button-primary'
+                                    : 'glass-button'
                                     }`}
                             >
                                 Mois
                             </button>
                             <button
                                 onClick={() => setGranularity('quarter')}
-                                className={`px-3 py-1 rounded-lg text-sm transition ${granularity === 'quarter'
-                                    ? 'bg-indigo-600 text-white'
-                                    : 'bg-slate-100 text-slate-700 hover:bg-slate-200'
+                                className={`px-3 py-1 rounded-lg text-sm transition cursor-pointer ${granularity === 'quarter'
+                                    ? 'glass-button-primary'
+                                    : 'glass-button'
                                     }`}
                             >
                                 Trimestre
                             </button>
                             <button
                                 onClick={() => setGranularity('year')}
-                                className={`px-3 py-1 rounded-lg text-sm transition ${granularity === 'year'
-                                    ? 'bg-indigo-600 text-white'
-                                    : 'bg-slate-100 text-slate-700 hover:bg-slate-200'
+                                className={`px-3 py-1 rounded-lg text-sm transition cursor-pointer ${granularity === 'year'
+                                    ? 'glass-button-primary'
+                                    : 'glass-button'
                                     }`}
                             >
                                 Annee
@@ -461,17 +461,17 @@ export default function Dashboard({ simulations }) {
 
             {/* Toggle Mode Projet / Comptable */}
             {viewType === 'monthly' && (
-                <div className="bg-white p-4 rounded-xl shadow-lg">
+                <div className="glass p-4 rounded-xl">
                     <div className="flex items-center justify-between">
                         <div className="flex items-center gap-4">
-                            <span className="text-sm font-medium text-slate-600">Mode de calcul:</span>
-                            <div className="flex bg-slate-100 rounded-lg p-1">
+                            <span className="text-sm font-medium text-white/70">Mode de calcul:</span>
+                            <div className="flex glass rounded-lg p-1">
                                 <button
                                     onClick={() => setCalculationMode('distributed')}
-                                    className={`flex items-center gap-2 px-4 py-2 rounded-md text-sm font-medium transition ${
+                                    className={`flex items-center gap-2 px-4 py-2 rounded-md text-sm font-medium transition cursor-pointer ${
                                         calculationMode === 'distributed'
-                                            ? 'bg-white text-indigo-600 shadow-sm'
-                                            : 'text-slate-600 hover:text-slate-800'
+                                            ? 'glass-strong text-white shadow-sm'
+                                            : 'text-white/60 hover:text-white'
                                     }`}
                                 >
                                     <TrendingUp className="w-4 h-4" />
@@ -479,10 +479,10 @@ export default function Dashboard({ simulations }) {
                                 </button>
                                 <button
                                     onClick={() => setCalculationMode('actual')}
-                                    className={`flex items-center gap-2 px-4 py-2 rounded-md text-sm font-medium transition ${
+                                    className={`flex items-center gap-2 px-4 py-2 rounded-md text-sm font-medium transition cursor-pointer ${
                                         calculationMode === 'actual'
-                                            ? 'bg-white text-emerald-600 shadow-sm'
-                                            : 'text-slate-600 hover:text-slate-800'
+                                            ? 'glass-strong text-emerald-300 shadow-sm'
+                                            : 'text-white/60 hover:text-white'
                                     }`}
                                 >
                                     <Calculator className="w-4 h-4" />
@@ -490,7 +490,7 @@ export default function Dashboard({ simulations }) {
                                 </button>
                             </div>
                         </div>
-                        <div className="flex items-center gap-4 text-xs text-slate-500">
+                        <div className="flex items-center gap-4 text-xs text-white/50">
                             {calculationMode === 'actual' && (
                                 <>
                                     <div className="flex items-center gap-1">
@@ -507,7 +507,7 @@ export default function Dashboard({ simulations }) {
                             )}
                         </div>
                     </div>
-                    <p className="mt-2 text-xs text-slate-400">
+                    <p className="mt-2 text-xs text-white/40">
                         {calculationMode === 'distributed'
                             ? 'Revenus repartis sur la duree du projet'
                             : 'Revenus comptabilises a la date de paiement'
@@ -518,8 +518,8 @@ export default function Dashboard({ simulations }) {
 
             {/* Graphique principal */}
             {viewType === 'monthly' && periodData.length > 0 && (
-                <div className="bg-white p-6 rounded-xl shadow-lg h-96">
-                    <h3 className="text-lg font-semibold mb-4 text-slate-700">{getChartTitle()}</h3>
+                <div className="glass-strong p-6 rounded-xl h-96">
+                    <h3 className="text-lg font-semibold mb-4 text-white">{getChartTitle()}</h3>
                     <ResponsiveContainer width="100%" height="100%">
                         <BarChart
                             data={chartData}
@@ -530,11 +530,11 @@ export default function Dashboard({ simulations }) {
                                 bottom: 5,
                             }}
                         >
-                            <CartesianGrid strokeDasharray="3 3" />
-                            <XAxis dataKey={getXAxisKey()} />
-                            <YAxis tickFormatter={(val) => `${val / 1000}k€`} />
+                            <CartesianGrid strokeDasharray="3 3" stroke="rgba(255,255,255,0.1)" />
+                            <XAxis dataKey={getXAxisKey()} stroke="rgba(255,255,255,0.6)" />
+                            <YAxis tickFormatter={(val) => `${val / 1000}k€`} stroke="rgba(255,255,255,0.6)" />
                             <Tooltip content={<CustomTooltip />} />
-                            <Legend />
+                            <Legend wrapperStyle={{ color: 'white' }} />
 
                             {/* Pattern hachure bleu pour revenus en attente */}
                             <defs>
@@ -589,8 +589,8 @@ export default function Dashboard({ simulations }) {
 
             {/* Graphique annuel de projection */}
             {viewType === 'financial' && annualData.length > 0 && (
-                <div className="bg-white p-6 rounded-xl shadow-lg h-96">
-                    <h3 className="text-lg font-semibold mb-4 text-slate-700">{getChartTitle()}</h3>
+                <div className="glass-strong p-6 rounded-xl h-96">
+                    <h3 className="text-lg font-semibold mb-4 text-white">{getChartTitle()}</h3>
                     <ResponsiveContainer width="100%" height="100%">
                         <BarChart
                             data={annualData.map(item => ({ ...item, year: item.year }))}
@@ -601,11 +601,11 @@ export default function Dashboard({ simulations }) {
                                 bottom: 5,
                             }}
                         >
-                            <CartesianGrid strokeDasharray="3 3" />
-                            <XAxis dataKey="year" />
-                            <YAxis tickFormatter={(val) => `${val / 1000}k€`} />
+                            <CartesianGrid strokeDasharray="3 3" stroke="rgba(255,255,255,0.1)" />
+                            <XAxis dataKey="year" stroke="rgba(255,255,255,0.6)" />
+                            <YAxis tickFormatter={(val) => `${val / 1000}k€`} stroke="rgba(255,255,255,0.6)" />
                             <Tooltip content={<CustomTooltip />} />
-                            <Legend />
+                            <Legend wrapperStyle={{ color: 'white' }} />
                             {visibleCategories.net && <Bar dataKey="Net" stackId="a" fill="#10b981" name="Résultat Net" />}
                             {visibleCategories.charges && <Bar dataKey="Charges" stackId="a" fill="#ef4444" name="Charges Sociales" />}
                             {visibleCategories.fixed && <Bar dataKey="Fixed" stackId="a" fill="#f97316" name="Frais Fixes" />}
@@ -619,35 +619,35 @@ export default function Dashboard({ simulations }) {
             {viewType === 'financial' && annualData.length > 0 && (
                 <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-5 gap-4">
                     {annualData.map((yearData) => (
-                        <div key={yearData.year} className="bg-white p-4 rounded-xl shadow border border-slate-100">
-                            <h4 className="font-bold text-slate-600 mb-2">{yearData.year}</h4>
+                        <div key={yearData.year} className="glass-card p-4 rounded-xl">
+                            <h4 className="font-bold text-white/80 mb-2">{yearData.year}</h4>
                             <div className="space-y-1 text-sm">
                                 {visibleCategories.revenue && (
                                     <div className="flex justify-between">
-                                        <span>CA:</span>
-                                        <span className="font-medium">{formatEuro(yearData.Revenue)}</span>
+                                        <span className="text-white/60">CA:</span>
+                                        <span className="font-medium text-white">{formatEuro(yearData.Revenue)}</span>
                                     </div>
                                 )}
                                 {visibleCategories.charges && (
-                                    <div className="flex justify-between text-red-500">
+                                    <div className="flex justify-between text-red-300">
                                         <span>Charges:</span>
                                         <span>-{formatEuro(yearData.Charges)}</span>
                                     </div>
                                 )}
                                 {visibleCategories.fixed && (
-                                    <div className="flex justify-between text-orange-500">
+                                    <div className="flex justify-between text-orange-300">
                                         <span>Fixes:</span>
                                         <span>-{formatEuro(yearData.Fixed)}</span>
                                     </div>
                                 )}
                                 {visibleCategories.oneshot && yearData.OneShot > 0 && (
-                                    <div className="flex justify-between text-purple-500">
+                                    <div className="flex justify-between text-purple-300">
                                         <span>Ponctuels:</span>
                                         <span>-{formatEuro(yearData.OneShot)}</span>
                                     </div>
                                 )}
                                 {visibleCategories.net && (
-                                    <div className="border-t pt-1 mt-1 flex justify-between font-bold text-emerald-600">
+                                    <div className="border-t border-white/10 pt-1 mt-1 flex justify-between font-bold text-emerald-400">
                                         <span>Net:</span>
                                         <span>{formatEuro(yearData.Net)}</span>
                                     </div>
@@ -660,24 +660,24 @@ export default function Dashboard({ simulations }) {
 
             {/* Tableau dynamique pour projection mensuelle */}
             {viewType === 'monthly' && periodData.length > 0 && !isNetBreakdownMode && (
-                <div className="bg-white p-6 rounded-xl shadow-lg">
-                    <h3 className="text-lg font-semibold mb-4 text-slate-700">Détails {getChartTitle()}</h3>
+                <div className="glass-strong p-6 rounded-xl">
+                    <h3 className="text-lg font-semibold mb-4 text-white">Détails {getChartTitle()}</h3>
                     <div className="overflow-x-auto">
                         <table className="w-full text-sm">
                             <thead>
-                                <tr className="border-b-2 border-slate-200">
-                                    <th className="text-left py-3 px-4 font-semibold text-slate-700 sticky left-0 bg-white z-10">
+                                <tr className="border-b-2 border-white/20">
+                                    <th className="text-left py-3 px-4 font-semibold text-white sticky left-0 glass z-10">
                                         Résultat
                                     </th>
                                     {periodData.map((item, index) => {
                                         const periodLabel = item.month || item.period || `Période ${index + 1}`;
                                         return (
-                                            <th key={index} className="text-right py-3 px-4 font-semibold text-slate-700 min-w-[100px]">
+                                            <th key={index} className="text-right py-3 px-4 font-semibold text-white/80 min-w-[100px]">
                                                 {periodLabel}
                                             </th>
                                         );
                                     })}
-                                    <th className="text-right py-3 px-4 font-semibold text-slate-700 bg-slate-100 min-w-[100px]">
+                                    <th className="text-right py-3 px-4 font-semibold text-white glass min-w-[100px]">
                                         Total
                                     </th>
                                 </tr>
@@ -685,78 +685,78 @@ export default function Dashboard({ simulations }) {
                             <tbody>
                                 {/* Ligne CA */}
                                 {visibleCategories.revenue && (
-                                    <tr className="border-b border-slate-100">
-                                        <td className="py-3 px-4 font-medium text-slate-800 sticky left-0 bg-white z-10">
-                                            CA {calculationMode === 'actual' && <span className="text-xs text-emerald-600">(recu)</span>}
+                                    <tr className="border-b border-white/10">
+                                        <td className="py-3 px-4 font-medium text-white sticky left-0 glass z-10">
+                                            CA {calculationMode === 'actual' && <span className="text-xs text-emerald-400">(recu)</span>}
                                         </td>
                                         {periodData.map((item, index) => (
-                                            <td key={index} className="text-right py-3 px-4">{formatEuro(item.Revenue)}</td>
+                                            <td key={index} className="text-right py-3 px-4 text-white/80">{formatEuro(item.Revenue)}</td>
                                         ))}
-                                        <td className="text-right py-3 px-4 font-semibold text-slate-800 bg-slate-100">
+                                        <td className="text-right py-3 px-4 font-semibold text-white glass">
                                             {formatEuro(periodData.reduce((sum, item) => sum + item.Revenue, 0))}
                                         </td>
                                     </tr>
                                 )}
                                 {/* Ligne CA en attente (mode comptable uniquement) */}
                                 {calculationMode === 'actual' && visibleCategories.revenue && (
-                                    <tr className="border-b border-slate-100 bg-emerald-50">
-                                        <td className="py-3 px-4 font-medium text-emerald-600 sticky left-0 bg-emerald-50 z-10">
+                                    <tr className="border-b border-white/10 bg-emerald-500/10">
+                                        <td className="py-3 px-4 font-medium text-emerald-300 sticky left-0 bg-emerald-500/10 z-10">
                                             CA <span className="text-xs">(en attente)</span>
                                         </td>
                                         {periodData.map((item, index) => (
-                                            <td key={index} className="text-right py-3 px-4 text-emerald-600">
+                                            <td key={index} className="text-right py-3 px-4 text-emerald-300">
                                                 {item.PendingRevenue > 0 ? formatEuro(item.PendingRevenue) : '-'}
                                             </td>
                                         ))}
-                                        <td className="text-right py-3 px-4 font-semibold text-emerald-600 bg-slate-100">
+                                        <td className="text-right py-3 px-4 font-semibold text-emerald-300 glass">
                                             {formatEuro(periodData.reduce((sum, item) => sum + (item.PendingRevenue || 0), 0))}
                                         </td>
                                     </tr>
                                 )}
                                 {/* Ligne Charges */}
                                 {visibleCategories.charges && (
-                                    <tr className="border-b border-slate-100 bg-slate-50">
-                                        <td className="py-3 px-4 font-medium text-red-600 sticky left-0 bg-slate-50 z-10">Charges</td>
+                                    <tr className="border-b border-white/10 bg-white/5">
+                                        <td className="py-3 px-4 font-medium text-red-300 sticky left-0 bg-white/5 z-10">Charges</td>
                                         {periodData.map((item, index) => (
-                                            <td key={index} className="text-right py-3 px-4 text-red-600">-{formatEuro(item.Charges)}</td>
+                                            <td key={index} className="text-right py-3 px-4 text-red-300">-{formatEuro(item.Charges)}</td>
                                         ))}
-                                        <td className="text-right py-3 px-4 font-semibold text-red-600 bg-slate-100">
+                                        <td className="text-right py-3 px-4 font-semibold text-red-300 glass">
                                             -{formatEuro(periodData.reduce((sum, item) => sum + item.Charges, 0))}
                                         </td>
                                     </tr>
                                 )}
                                 {/* Ligne Frais fixes */}
                                 {visibleCategories.fixed && (
-                                    <tr className="border-b border-slate-100">
-                                        <td className="py-3 px-4 font-medium text-orange-600 sticky left-0 bg-white z-10">Frais fixes</td>
+                                    <tr className="border-b border-white/10">
+                                        <td className="py-3 px-4 font-medium text-orange-300 sticky left-0 glass z-10">Frais fixes</td>
                                         {periodData.map((item, index) => (
-                                            <td key={index} className="text-right py-3 px-4 text-orange-600">-{formatEuro(item.Fixed)}</td>
+                                            <td key={index} className="text-right py-3 px-4 text-orange-300">-{formatEuro(item.Fixed)}</td>
                                         ))}
-                                        <td className="text-right py-3 px-4 font-semibold text-orange-600 bg-slate-100">
+                                        <td className="text-right py-3 px-4 font-semibold text-orange-300 glass">
                                             -{formatEuro(periodData.reduce((sum, item) => sum + item.Fixed, 0))}
                                         </td>
                                     </tr>
                                 )}
                                 {/* Ligne Frais ponctuels */}
                                 {visibleCategories.oneshot && (
-                                    <tr className="border-b border-slate-100 bg-slate-50">
-                                        <td className="py-3 px-4 font-medium text-purple-600 sticky left-0 bg-slate-50 z-10">Frais ponctuels</td>
+                                    <tr className="border-b border-white/10 bg-white/5">
+                                        <td className="py-3 px-4 font-medium text-purple-300 sticky left-0 bg-white/5 z-10">Frais ponctuels</td>
                                         {periodData.map((item, index) => (
-                                            <td key={index} className="text-right py-3 px-4 text-purple-600">-{formatEuro(item.OneShot)}</td>
+                                            <td key={index} className="text-right py-3 px-4 text-purple-300">-{formatEuro(item.OneShot)}</td>
                                         ))}
-                                        <td className="text-right py-3 px-4 font-semibold text-purple-600 bg-slate-100">
+                                        <td className="text-right py-3 px-4 font-semibold text-purple-300 glass">
                                             -{formatEuro(periodData.reduce((sum, item) => sum + item.OneShot, 0))}
                                         </td>
                                     </tr>
                                 )}
                                 {/* Ligne Net */}
                                 {visibleCategories.net && (
-                                    <tr className="border-t-2 border-slate-300">
-                                        <td className="py-3 px-4 font-bold text-emerald-600 sticky left-0 bg-white z-10">Net</td>
+                                    <tr className="border-t-2 border-white/20">
+                                        <td className="py-3 px-4 font-bold text-emerald-400 sticky left-0 glass z-10">Net</td>
                                         {periodData.map((item, index) => (
-                                            <td key={index} className="text-right py-3 px-4 font-bold text-emerald-600">{formatEuro(item.Net)}</td>
+                                            <td key={index} className="text-right py-3 px-4 font-bold text-emerald-400">{formatEuro(item.Net)}</td>
                                         ))}
-                                        <td className="text-right py-3 px-4 font-bold text-emerald-600 bg-slate-100">
+                                        <td className="text-right py-3 px-4 font-bold text-emerald-400 glass">
                                             {formatEuro(periodData.reduce((sum, item) => sum + item.Net, 0))}
                                         </td>
                                     </tr>

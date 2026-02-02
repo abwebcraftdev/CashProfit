@@ -92,13 +92,13 @@ const UpdateModal = () => {
     };
 
     return (
-        <div className="fixed inset-0 bg-black/50 z-[100] flex items-center justify-center p-4">
-            <div className="bg-white rounded-2xl shadow-2xl w-full max-w-md overflow-hidden">
+        <div className="fixed inset-0 glass-overlay z-[100] flex items-center justify-center p-4">
+            <div className="glass-strong rounded-2xl shadow-2xl w-full max-w-md overflow-hidden">
                 {/* Header */}
-                <div className="bg-gradient-to-r from-indigo-600 to-purple-600 p-6 text-white">
+                <div className="bg-gradient-to-r from-indigo-600/80 to-purple-600/80 p-6 text-white backdrop-blur-sm">
                     <div className="flex items-center justify-between">
                         <div className="flex items-center gap-3">
-                            <div className="w-12 h-12 bg-white/20 rounded-xl flex items-center justify-center">
+                            <div className="w-12 h-12 bg-white/20 rounded-xl flex items-center justify-center backdrop-blur-sm">
                                 <Rocket className="w-6 h-6" />
                             </div>
                             <div>
@@ -109,7 +109,7 @@ const UpdateModal = () => {
                         {status !== 'downloading' && (
                             <button
                                 onClick={handleDismiss}
-                                className="p-2 hover:bg-white/20 rounded-full transition"
+                                className="p-2 hover:bg-white/20 rounded-full transition cursor-pointer"
                             >
                                 <X className="w-5 h-5" />
                             </button>
@@ -120,15 +120,15 @@ const UpdateModal = () => {
                 {/* Content */}
                 <div className="p-6">
                     {/* Version info */}
-                    <div className="flex items-center justify-between text-sm mb-4 pb-4 border-b border-slate-100">
-                        <span className="text-slate-500">Version actuelle</span>
-                        <span className="font-mono text-slate-700">v{currentVersion}</span>
+                    <div className="flex items-center justify-between text-sm mb-4 pb-4 border-b border-white/10">
+                        <span className="text-white/60">Version actuelle</span>
+                        <span className="font-mono text-white">v{currentVersion}</span>
                     </div>
 
                     {/* Release notes */}
                     <div className="mb-6">
-                        <h3 className="text-sm font-semibold text-slate-700 mb-2">Nouveautes</h3>
-                        <div className="bg-slate-50 rounded-lg p-4 text-sm text-slate-600 max-h-40 overflow-y-auto">
+                        <h3 className="text-sm font-semibold text-white/80 mb-2">Nouveautes</h3>
+                        <div className="glass rounded-lg p-4 text-sm text-white/70 max-h-40 overflow-y-auto">
                             <pre className="whitespace-pre-wrap font-sans">
                                 {formatReleaseNotes(updateInfo?.releaseNotes)}
                             </pre>
@@ -139,10 +139,10 @@ const UpdateModal = () => {
                     {status === 'downloading' && (
                         <div className="mb-6">
                             <div className="flex items-center justify-between text-sm mb-2">
-                                <span className="text-slate-600">Telechargement en cours...</span>
-                                <span className="font-medium text-indigo-600">{Math.round(downloadProgress)}%</span>
+                                <span className="text-white/70">Telechargement en cours...</span>
+                                <span className="font-medium text-indigo-300">{Math.round(downloadProgress)}%</span>
                             </div>
-                            <div className="h-2 bg-slate-200 rounded-full overflow-hidden">
+                            <div className="h-2 glass rounded-full overflow-hidden">
                                 <div
                                     className="h-full bg-gradient-to-r from-indigo-500 to-purple-500 transition-all duration-300"
                                     style={{ width: `${downloadProgress}%` }}
@@ -153,7 +153,7 @@ const UpdateModal = () => {
 
                     {/* Downloaded success message */}
                     {status === 'downloaded' && (
-                        <div className="mb-6 flex items-center gap-3 p-4 bg-emerald-50 rounded-lg text-emerald-700">
+                        <div className="mb-6 flex items-center gap-3 p-4 bg-emerald-500/20 border border-emerald-500/30 rounded-lg text-emerald-300">
                             <CheckCircle className="w-5 h-5" />
                             <span className="text-sm">Telechargement termine ! Pret a installer.</span>
                         </div>
@@ -165,13 +165,13 @@ const UpdateModal = () => {
                             <>
                                 <button
                                     onClick={handleDismiss}
-                                    className="flex-1 px-4 py-3 border border-slate-300 text-slate-700 rounded-xl font-medium hover:bg-slate-50 transition"
+                                    className="flex-1 px-4 py-3 glass-button rounded-xl font-medium transition cursor-pointer"
                                 >
                                     Plus tard
                                 </button>
                                 <button
                                     onClick={handleDownload}
-                                    className="flex-1 px-4 py-3 bg-gradient-to-r from-indigo-600 to-purple-600 text-white rounded-xl font-medium hover:from-indigo-700 hover:to-purple-700 transition flex items-center justify-center gap-2"
+                                    className="flex-1 px-4 py-3 bg-gradient-to-r from-indigo-600/80 to-purple-600/80 text-white rounded-xl font-medium hover:from-indigo-600 hover:to-purple-600 transition flex items-center justify-center gap-2 backdrop-blur-sm cursor-pointer"
                                 >
                                     <Download className="w-4 h-4" />
                                     Telecharger
@@ -182,7 +182,7 @@ const UpdateModal = () => {
                         {status === 'downloading' && (
                             <button
                                 disabled
-                                className="flex-1 px-4 py-3 bg-slate-100 text-slate-400 rounded-xl font-medium flex items-center justify-center gap-2 cursor-not-allowed"
+                                className="flex-1 px-4 py-3 glass text-white/50 rounded-xl font-medium flex items-center justify-center gap-2 cursor-not-allowed"
                             >
                                 <RefreshCw className="w-4 h-4 animate-spin" />
                                 Telechargement...
@@ -193,13 +193,13 @@ const UpdateModal = () => {
                             <>
                                 <button
                                     onClick={handleDismiss}
-                                    className="flex-1 px-4 py-3 border border-slate-300 text-slate-700 rounded-xl font-medium hover:bg-slate-50 transition"
+                                    className="flex-1 px-4 py-3 glass-button rounded-xl font-medium transition cursor-pointer"
                                 >
                                     Plus tard
                                 </button>
                                 <button
                                     onClick={handleInstall}
-                                    className="flex-1 px-4 py-3 bg-gradient-to-r from-emerald-600 to-teal-600 text-white rounded-xl font-medium hover:from-emerald-700 hover:to-teal-700 transition flex items-center justify-center gap-2"
+                                    className="flex-1 px-4 py-3 bg-gradient-to-r from-emerald-600/80 to-teal-600/80 text-white rounded-xl font-medium hover:from-emerald-600 hover:to-teal-600 transition flex items-center justify-center gap-2 backdrop-blur-sm cursor-pointer"
                                 >
                                     <RefreshCw className="w-4 h-4" />
                                     Installer et redemarrer
@@ -210,8 +210,8 @@ const UpdateModal = () => {
                 </div>
 
                 {/* Footer */}
-                <div className="px-6 py-4 bg-slate-50 border-t border-slate-100">
-                    <p className="text-xs text-slate-500 text-center">
+                <div className="px-6 py-4 glass border-t border-white/10">
+                    <p className="text-xs text-white/50 text-center">
                         La mise a jour sera installee au prochain redemarrage si vous choisissez "Plus tard"
                     </p>
                 </div>

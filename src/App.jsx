@@ -45,11 +45,11 @@ export default function App() {
       id: Date.now(),
       name: `Simulation ${simulations.length + 1}`,
       isTest: false,
-      services: [{ 
-        id: 1, 
-        name: '', 
-        price: 0, 
-        quantity: 0, 
+      services: [{
+        id: 1,
+        name: '',
+        price: 0,
+        quantity: 0,
         frequency: 'mois',
         params: {
           socialChargesRate: 25 // Par défaut 25%
@@ -76,20 +76,20 @@ export default function App() {
       console.warn('Tentative de suppression avec simId invalide:', simId);
       return;
     }
-    
+
     // Convertir en string pour être sûr
     const simIdStr = String(simId);
-    
+
     try {
       // Supprimer de la liste d'abord pour une mise à jour immédiate de l'UI
       const updatedSims = simulations.filter(s => s.id !== simId);
       setSimulations(updatedSims);
-      
+
       // Changer d'onglet si nécessaire
       if (activeTab === simId) {
         setActiveTab('dashboard');
       }
-      
+
       // Supprimer du storage
       const storageKey = `sim:${simIdStr}`;
       await window.storage.delete(storageKey);
@@ -129,34 +129,34 @@ export default function App() {
 
   const handleDuplicateToOtherSimulation = (service, targetSimId) => {
     if (!service || !targetSimId) return;
-    
+
     const targetSim = simulations.find(s => s.id === targetSimId);
     if (!targetSim) return;
-    
+
     // Deep clone the service avec un nouvel ID
     const duplicatedService = {
       ...JSON.parse(JSON.stringify(service)),
       id: Date.now(),
       name: `${service.name} (copie)`
     };
-    
+
     // Ajouter le service dupliqué à la simulation cible
     const updatedTargetServices = [...targetSim.services, duplicatedService];
     updateSimulation(targetSimId, { services: updatedTargetServices });
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-50 to-slate-100 flex flex-col">
-      {/* Header / Tabs */}
-      <div className="bg-slate-200 pt-2 px-4 shadow-inner flex items-end gap-2 overflow-x-auto">
+    <div className="min-h-screen flex flex-col">
+      {/* Header / Tabs - Glassmorphism */}
+      <div className="glass-strong pt-2 px-4 flex items-end gap-2 overflow-x-auto">
         {/* Dashboard Tab */}
         <button
           onClick={() => setActiveTab('dashboard')}
           className={clsx(
-            "flex items-center gap-2 px-4 py-2 rounded-t-lg transition font-medium text-sm",
+            "flex items-center gap-2 px-4 py-2 rounded-t-lg transition font-medium text-sm cursor-pointer",
             activeTab === 'dashboard'
-              ? "bg-white text-indigo-600 shadow-sm"
-              : "bg-slate-300 text-slate-600 hover:bg-slate-100"
+              ? "glass-strong text-white shadow-lg"
+              : "glass-light text-white/70 hover:text-white hover:bg-white/10"
           )}
         >
           <LayoutDashboard className="w-4 h-4" />
@@ -172,21 +172,18 @@ export default function App() {
             className={clsx(
               "flex items-center gap-2 px-4 py-2 rounded-t-lg cursor-pointer transition group relative",
               activeTab === sim.id
-                ? "bg-white shadow-sm"
-                : "bg-slate-300 hover:bg-slate-100"
+                ? "glass-strong text-white shadow-lg"
+                : "glass-light text-white/70 hover:text-white hover:bg-white/10"
             )}
           >
             <input
               type="text"
               value={sim.name}
               onChange={(e) => updateSimulation(sim.id, { name: e.target.value })}
-              className={clsx(
-                "bg-transparent outline-none font-medium text-sm w-32",
-                activeTab === sim.id ? "text-slate-800" : "text-slate-600"
-              )}
+              className="bg-transparent outline-none font-medium text-sm w-32 text-white placeholder-white/50"
             />
             {sim.isTest && (
-              <span className="text-[10px] bg-amber-100 text-amber-800 px-1 rounded border border-amber-200">
+              <span className="text-[10px] bg-amber-500/30 text-amber-200 px-1.5 py-0.5 rounded border border-amber-400/30">
                 TEST
               </span>
             )}
@@ -200,17 +197,17 @@ export default function App() {
                 e.stopPropagation();
                 e.preventDefault();
               }}
-              className="opacity-0 group-hover:opacity-100 p-1 hover:bg-slate-200 rounded transition"
+              className="opacity-0 group-hover:opacity-100 p-1 hover:bg-white/20 rounded transition cursor-pointer"
               title="Supprimer cette simulation"
             >
-              <X className="w-3 h-3 text-slate-500" />
+              <X className="w-3 h-3 text-white/70" />
             </button>
           </div>
         ))}
 
         <button
           onClick={createNewSimulation}
-          className="p-2 mb-1 text-slate-500 hover:text-indigo-600 hover:bg-indigo-50 rounded-lg transition"
+          className="p-2 mb-1 text-white/60 hover:text-white hover:bg-white/10 rounded-lg transition cursor-pointer"
           title="Nouvelle simulation"
         >
           <Plus className="w-5 h-5" />
@@ -230,21 +227,21 @@ export default function App() {
             onDuplicateToOtherSimulation={handleDuplicateToOtherSimulation}
           />
         ) : (
-          <div className="flex items-center justify-center h-full text-slate-400">
+          <div className="flex items-center justify-center h-full text-white/60">
             Simulation introuvable
           </div>
         )}
       </div>
 
-      {/* Context Menu */}
+      {/* Context Menu - Glassmorphism */}
       {contextMenu && (
         <div
-          className="fixed bg-white shadow-xl rounded-lg border border-slate-100 py-1 z-50 w-48"
+          className="fixed glass-strong rounded-lg py-1 z-50 w-48 shadow-xl"
           style={{ top: contextMenu.y, left: contextMenu.x }}
         >
           <button
             onClick={() => toggleTestMode(contextMenu.simId)}
-            className="w-full text-left px-4 py-2 text-sm text-slate-700 hover:bg-slate-50"
+            className="w-full text-left px-4 py-2 text-sm text-white/90 hover:bg-white/10 transition cursor-pointer"
           >
             {simulations.find(s => s.id === contextMenu.simId)?.isTest
               ? "Marquer comme Reel"
@@ -252,7 +249,7 @@ export default function App() {
           </button>
           <button
             onClick={() => deleteSimulation(contextMenu.simId)}
-            className="w-full text-left px-4 py-2 text-sm text-red-600 hover:bg-red-50"
+            className="w-full text-left px-4 py-2 text-sm text-red-300 hover:bg-red-500/20 transition cursor-pointer"
           >
             Supprimer
           </button>
