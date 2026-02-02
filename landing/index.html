@@ -1,0 +1,555 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CashProfit - Simulateur de Revenus pour Freelances</title>
+    <meta name="description" content="Simulez vos revenus, charges et benefices en tant que freelance ou micro-entrepreneur. Gratuit et simple d'utilisation.">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['DM Sans', 'system-ui', 'sans-serif'],
+                    },
+                    colors: {
+                        liquid: {
+                            bg: '#0F172A',
+                            deep: '#020617',
+                            primary: '#F59E0B',
+                            'primary-light': '#FBBF24',
+                            cta: '#8B5CF6',
+                            'cta-light': '#A78BFA',
+                            text: '#F8FAFC',
+                            muted: '#94A3B8',
+                            subtle: '#64748B',
+                        }
+                    },
+                    animation: {
+                        'float': 'float 6s ease-in-out infinite',
+                        'float-delay': 'float 6s ease-in-out 2s infinite',
+                        'pulse-slow': 'pulse 4s cubic-bezier(0.4, 0, 0.6, 1) infinite',
+                        'glow': 'glow 2s ease-in-out infinite alternate',
+                        'morph': 'morph 8s ease-in-out infinite',
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        @keyframes float {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-20px); }
+        }
+        @keyframes glow {
+            from { box-shadow: 0 0 20px rgba(245, 158, 11, 0.3); }
+            to { box-shadow: 0 0 40px rgba(245, 158, 11, 0.5); }
+        }
+        @keyframes morph {
+            0%, 100% { border-radius: 60% 40% 30% 70% / 60% 30% 70% 40%; }
+            50% { border-radius: 30% 60% 70% 40% / 50% 60% 30% 60%; }
+        }
+
+        .liquid-glass {
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        .liquid-glass-strong {
+            background: rgba(255, 255, 255, 0.08);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.15);
+        }
+        .text-glow-gold {
+            text-shadow: 0 0 20px rgba(245, 158, 11, 0.5);
+        }
+        .text-glow-violet {
+            text-shadow: 0 0 20px rgba(139, 92, 246, 0.5);
+        }
+        .glow-gold {
+            box-shadow: 0 0 30px rgba(245, 158, 11, 0.3);
+        }
+        .glow-violet {
+            box-shadow: 0 0 30px rgba(139, 92, 246, 0.3);
+        }
+        .gradient-gold-violet {
+            background: linear-gradient(135deg, #F59E0B 0%, #8B5CF6 100%);
+        }
+        .border-liquid {
+            border-color: rgba(255, 255, 255, 0.1);
+        }
+
+        /* App mockup styles */
+        .app-mockup {
+            background: linear-gradient(180deg, rgba(15, 23, 42, 0.9) 0%, rgba(2, 6, 23, 0.95) 100%);
+        }
+        .liquid-card {
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            transition: all 400ms cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        .liquid-card:hover {
+            background: rgba(255, 255, 255, 0.06);
+            border-color: rgba(245, 158, 11, 0.3);
+            box-shadow: 0 0 30px rgba(245, 158, 11, 0.1);
+        }
+    </style>
+</head>
+<body class="bg-liquid-bg text-liquid-text font-sans overflow-x-hidden">
+
+    <!-- Navigation -->
+    <nav class="fixed top-0 left-0 right-0 z-50 liquid-glass-strong">
+        <div class="max-w-7xl mx-auto px-6 py-4 flex items-center justify-between">
+            <div class="flex items-center gap-3">
+                <div class="w-10 h-10 rounded-xl gradient-gold-violet flex items-center justify-center font-bold text-xl glow-gold">
+                    C
+                </div>
+                <span class="text-xl font-bold text-glow-gold text-liquid-primary">CashProfit</span>
+            </div>
+            <div class="hidden md:flex items-center gap-8">
+                <a href="#features" class="text-liquid-muted hover:text-liquid-primary transition-all duration-300">Fonctionnalites</a>
+                <a href="#demo" class="text-liquid-muted hover:text-liquid-primary transition-all duration-300">Demo</a>
+                <a href="#download" class="px-5 py-2.5 rounded-xl gradient-gold-violet font-semibold hover:opacity-90 transition-all duration-300 glow-gold">
+                    Telecharger
+                </a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="min-h-screen flex items-center relative overflow-hidden">
+        <!-- Background decorations - Liquid Glass style -->
+        <div class="absolute inset-0 overflow-hidden">
+            <div class="absolute top-20 left-10 w-72 h-72 bg-liquid-primary/20 rounded-full blur-3xl animate-pulse-slow"></div>
+            <div class="absolute bottom-20 right-10 w-96 h-96 bg-liquid-cta/20 rounded-full blur-3xl animate-pulse-slow" style="animation-delay: 2s;"></div>
+            <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-liquid-primary/10 animate-morph blur-3xl"></div>
+        </div>
+
+        <div class="max-w-7xl mx-auto px-6 pt-32 pb-20 relative z-10">
+            <div class="grid lg:grid-cols-2 gap-12 items-center">
+                <!-- Left: Text -->
+                <div>
+                    <div class="inline-flex items-center gap-2 px-4 py-2 rounded-full liquid-glass text-sm mb-6 border border-liquid-primary/30">
+                        <span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
+                        <span class="text-liquid-muted">Version 1.1.0 disponible</span>
+                    </div>
+                    <h1 class="text-5xl lg:text-6xl font-bold leading-tight mb-6">
+                        Simulez vos
+                        <span class="text-liquid-primary text-glow-gold">revenus</span>
+                        en toute simplicite
+                    </h1>
+                    <p class="text-xl text-liquid-muted mb-8 leading-relaxed">
+                        L'outil gratuit pour freelances et micro-entrepreneurs.
+                        Calculez vos charges, anticipez vos benefices et prenez les bonnes decisions.
+                    </p>
+                    <div class="flex flex-wrap gap-4">
+                        <a href="#download" class="px-8 py-4 rounded-xl gradient-gold-violet font-semibold text-lg hover:scale-105 transition-all duration-300 glow-gold">
+                            Telecharger gratuitement
+                        </a>
+                        <a href="#demo" class="px-8 py-4 rounded-xl liquid-glass font-semibold text-lg hover:bg-white/10 transition-all duration-300 border border-liquid-cta/30">
+                            Voir la demo
+                        </a>
+                    </div>
+                    <div class="flex items-center gap-6 mt-8 text-liquid-subtle text-sm">
+                        <div class="flex items-center gap-2">
+                            <svg class="w-5 h-5 text-emerald-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+                            </svg>
+                            100% Gratuit
+                        </div>
+                        <div class="flex items-center gap-2">
+                            <svg class="w-5 h-5 text-emerald-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+                            </svg>
+                            Mac, Windows, Linux
+                        </div>
+                        <div class="flex items-center gap-2">
+                            <svg class="w-5 h-5 text-emerald-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+                            </svg>
+                            Hors ligne
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Right: App Preview - Liquid Glass style -->
+                <div class="relative animate-float">
+                    <div class="liquid-glass-strong rounded-2xl p-6 shadow-2xl glow-violet">
+                        <!-- Window controls -->
+                        <div class="flex items-center gap-2 mb-4">
+                            <div class="w-3 h-3 rounded-full bg-red-400/80"></div>
+                            <div class="w-3 h-3 rounded-full bg-yellow-400/80"></div>
+                            <div class="w-3 h-3 rounded-full bg-emerald-400/80"></div>
+                            <span class="ml-3 text-liquid-subtle text-xs">CashProfit</span>
+                        </div>
+
+                        <!-- App content mockup -->
+                        <div class="app-mockup rounded-xl p-4 space-y-4">
+                            <!-- Tabs -->
+                            <div class="flex items-center gap-2">
+                                <div class="px-3 py-1.5 rounded-lg bg-liquid-primary/20 text-liquid-primary text-sm font-medium border-b-2 border-liquid-primary">
+                                    Dashboard
+                                </div>
+                                <div class="px-3 py-1.5 rounded-lg text-liquid-subtle text-sm">
+                                    Simulation 1
+                                </div>
+                            </div>
+
+                            <!-- Metrics -->
+                            <div class="grid grid-cols-3 gap-3">
+                                <div class="liquid-card rounded-xl p-3">
+                                    <div class="text-liquid-subtle text-xs mb-1">CA / mois</div>
+                                    <div class="text-lg font-bold text-liquid-primary text-glow-gold">4 500 €</div>
+                                </div>
+                                <div class="liquid-card rounded-xl p-3">
+                                    <div class="text-liquid-subtle text-xs mb-1">Charges</div>
+                                    <div class="text-lg font-bold text-red-400">- 1 125 €</div>
+                                </div>
+                                <div class="liquid-card rounded-xl p-3">
+                                    <div class="text-liquid-subtle text-xs mb-1">Benefice</div>
+                                    <div class="text-lg font-bold text-emerald-400">3 375 €</div>
+                                </div>
+                            </div>
+
+                            <!-- Chart bars -->
+                            <div class="liquid-card rounded-xl p-4 h-32 flex items-end justify-around gap-2">
+                                <div class="w-8 bg-gradient-to-t from-liquid-primary to-liquid-cta rounded-t-lg opacity-80" style="height: 60%;"></div>
+                                <div class="w-8 bg-gradient-to-t from-liquid-primary to-liquid-cta rounded-t-lg opacity-80" style="height: 85%;"></div>
+                                <div class="w-8 bg-gradient-to-t from-liquid-primary to-liquid-cta rounded-t-lg opacity-80" style="height: 45%;"></div>
+                                <div class="w-8 bg-gradient-to-t from-liquid-primary to-liquid-cta rounded-t-lg opacity-80" style="height: 95%;"></div>
+                                <div class="w-8 bg-gradient-to-t from-liquid-primary to-liquid-cta rounded-t-lg opacity-80" style="height: 70%;"></div>
+                                <div class="w-8 bg-gradient-to-t from-liquid-primary to-liquid-cta rounded-t-lg" style="height: 100%;"></div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Floating badge -->
+                    <div class="absolute -top-4 -right-4 liquid-glass-strong rounded-xl p-3 animate-float-delay glow-gold border border-liquid-primary/30">
+                        <div class="text-emerald-400 font-bold">+12%</div>
+                        <div class="text-xs text-liquid-subtle">ce mois</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Features Section -->
+    <section id="features" class="py-24 relative">
+        <div class="max-w-7xl mx-auto px-6">
+            <div class="text-center mb-16">
+                <h2 class="text-4xl font-bold mb-4">
+                    Tout ce dont vous avez
+                    <span class="text-liquid-primary text-glow-gold">besoin</span>
+                </h2>
+                <p class="text-xl text-liquid-muted max-w-2xl mx-auto">
+                    Des outils puissants et simples pour gerer vos finances de freelance
+                </p>
+            </div>
+
+            <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+                <!-- Feature 1 -->
+                <div class="liquid-card rounded-2xl p-8 group">
+                    <div class="w-14 h-14 rounded-xl gradient-gold-violet flex items-center justify-center mb-6 group-hover:scale-110 transition-transform duration-300 glow-gold">
+                        <svg class="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 7h6m0 10v-3m-3 3h.01M9 17h.01M9 14h.01M12 14h.01M15 11h.01M12 11h.01M9 11h.01M7 21h10a2 2 0 002-2V5a2 2 0 00-2-2H7a2 2 0 00-2 2v14a2 2 0 002 2z"></path>
+                        </svg>
+                    </div>
+                    <h3 class="text-xl font-bold mb-3 text-white">Calcul automatique</h3>
+                    <p class="text-liquid-muted">
+                        Entrez vos tarifs et frequences, CashProfit calcule automatiquement vos charges sociales et votre benefice net.
+                    </p>
+                </div>
+
+                <!-- Feature 2 -->
+                <div class="liquid-card rounded-2xl p-8 group">
+                    <div class="w-14 h-14 rounded-xl gradient-gold-violet flex items-center justify-center mb-6 group-hover:scale-110 transition-transform duration-300 glow-violet">
+                        <svg class="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 5a1 1 0 011-1h14a1 1 0 011 1v2a1 1 0 01-1 1H5a1 1 0 01-1-1V5zM4 13a1 1 0 011-1h6a1 1 0 011 1v6a1 1 0 01-1 1H5a1 1 0 01-1-1v-6zM16 13a1 1 0 011-1h2a1 1 0 011 1v6a1 1 0 01-1 1h-2a1 1 0 01-1-1v-6z"></path>
+                        </svg>
+                    </div>
+                    <h3 class="text-xl font-bold mb-3 text-white">Multi-simulations</h3>
+                    <p class="text-liquid-muted">
+                        Creez plusieurs simulations pour comparer differents scenarios et prendre les meilleures decisions pour votre activite.
+                    </p>
+                </div>
+
+                <!-- Feature 3 -->
+                <div class="liquid-card rounded-2xl p-8 group">
+                    <div class="w-14 h-14 rounded-xl gradient-gold-violet flex items-center justify-center mb-6 group-hover:scale-110 transition-transform duration-300 glow-gold">
+                        <svg class="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"></path>
+                        </svg>
+                    </div>
+                    <h3 class="text-xl font-bold mb-3 text-white">Dashboard visuel</h3>
+                    <p class="text-liquid-muted">
+                        Visualisez l'ensemble de vos revenus et charges avec des graphiques clairs et un recapitulatif global.
+                    </p>
+                </div>
+
+                <!-- Feature 4 -->
+                <div class="liquid-card rounded-2xl p-8 group">
+                    <div class="w-14 h-14 rounded-xl gradient-gold-violet flex items-center justify-center mb-6 group-hover:scale-110 transition-transform duration-300 glow-violet">
+                        <svg class="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 9V7a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2m2 4h10a2 2 0 002-2v-6a2 2 0 00-2-2H9a2 2 0 00-2 2v6a2 2 0 002 2zm7-5a2 2 0 11-4 0 2 2 0 014 0z"></path>
+                        </svg>
+                    </div>
+                    <h3 class="text-xl font-bold mb-3 text-white">Suivi des paiements</h3>
+                    <p class="text-liquid-muted">
+                        Gerez vos acomptes, jalons et paiements recurrents. Marquez ce qui est encaisse ou reste a percevoir.
+                    </p>
+                </div>
+
+                <!-- Feature 5 -->
+                <div class="liquid-card rounded-2xl p-8 group">
+                    <div class="w-14 h-14 rounded-xl gradient-gold-violet flex items-center justify-center mb-6 group-hover:scale-110 transition-transform duration-300 glow-gold">
+                        <svg class="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"></path>
+                        </svg>
+                    </div>
+                    <h3 class="text-xl font-bold mb-3 text-white">100% Hors ligne</h3>
+                    <p class="text-liquid-muted">
+                        Vos donnees restent sur votre ordinateur. Aucune connexion internet requise, confidentialite garantie.
+                    </p>
+                </div>
+
+                <!-- Feature 6 -->
+                <div class="liquid-card rounded-2xl p-8 group">
+                    <div class="w-14 h-14 rounded-xl gradient-gold-violet flex items-center justify-center mb-6 group-hover:scale-110 transition-transform duration-300 glow-violet">
+                        <svg class="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"></path>
+                        </svg>
+                    </div>
+                    <h3 class="text-xl font-bold mb-3 text-white">Mises a jour auto</h3>
+                    <p class="text-liquid-muted">
+                        Recevez automatiquement les nouvelles fonctionnalites et ameliorations sans rien faire.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Demo Section -->
+    <section id="demo" class="py-24 relative">
+        <div class="absolute inset-0 overflow-hidden">
+            <div class="absolute top-1/2 left-1/4 w-96 h-96 bg-liquid-primary/15 rounded-full blur-3xl"></div>
+            <div class="absolute bottom-0 right-1/4 w-72 h-72 bg-liquid-cta/15 rounded-full blur-3xl"></div>
+        </div>
+
+        <div class="max-w-7xl mx-auto px-6 relative z-10">
+            <div class="text-center mb-16">
+                <h2 class="text-4xl font-bold mb-4">
+                    Voyez-le en
+                    <span class="text-liquid-cta text-glow-violet">action</span>
+                </h2>
+                <p class="text-xl text-liquid-muted">
+                    Une interface intuitive pensee pour les freelances
+                </p>
+            </div>
+
+            <!-- Full App Mockup -->
+            <div class="liquid-glass-strong rounded-3xl p-8 max-w-5xl mx-auto glow-violet">
+                <!-- Window chrome -->
+                <div class="flex items-center gap-2 mb-6">
+                    <div class="w-3 h-3 rounded-full bg-red-400/80"></div>
+                    <div class="w-3 h-3 rounded-full bg-yellow-400/80"></div>
+                    <div class="w-3 h-3 rounded-full bg-emerald-400/80"></div>
+                    <span class="ml-4 text-liquid-subtle text-sm">CashProfit v1.1.0</span>
+                </div>
+
+                <div class="app-mockup rounded-2xl p-6">
+                    <!-- Header Tabs -->
+                    <div class="flex items-center gap-2 mb-6 pb-4 border-b border-liquid">
+                        <div class="flex items-center gap-2 px-4 py-2.5 rounded-t-xl liquid-glass-strong text-liquid-primary border-b-2 border-liquid-primary">
+                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 5a1 1 0 011-1h14a1 1 0 011 1v2a1 1 0 01-1 1H5a1 1 0 01-1-1V5z"></path>
+                            </svg>
+                            Dashboard
+                        </div>
+                        <div class="px-4 py-2.5 rounded-t-xl text-liquid-subtle hover:bg-white/5 cursor-pointer transition">
+                            Freelance Web
+                        </div>
+                        <div class="px-4 py-2.5 rounded-t-xl text-liquid-subtle hover:bg-white/5 cursor-pointer transition">
+                            Consulting
+                        </div>
+                        <div class="px-4 py-2.5 rounded-t-xl text-liquid-subtle hover:bg-white/5 cursor-pointer transition">
+                            +
+                        </div>
+                    </div>
+
+                    <!-- Dashboard Grid -->
+                    <div class="grid md:grid-cols-4 gap-4 mb-6">
+                        <div class="liquid-card rounded-xl p-4 border-l-4 border-liquid-primary">
+                            <div class="text-liquid-subtle text-xs mb-1">CA Total / mois</div>
+                            <div class="text-2xl font-bold text-liquid-primary text-glow-gold">6 250 €</div>
+                            <div class="text-xs text-emerald-400 mt-1">+15% vs mois dernier</div>
+                        </div>
+                        <div class="liquid-card rounded-xl p-4 border-l-4 border-red-400">
+                            <div class="text-liquid-subtle text-xs mb-1">Charges sociales</div>
+                            <div class="text-2xl font-bold text-red-400">- 1 562 €</div>
+                            <div class="text-xs text-liquid-subtle mt-1">25% du CA</div>
+                        </div>
+                        <div class="liquid-card rounded-xl p-4 border-l-4 border-emerald-400">
+                            <div class="text-liquid-subtle text-xs mb-1">Benefice net</div>
+                            <div class="text-2xl font-bold text-emerald-400">4 688 €</div>
+                            <div class="text-xs text-emerald-400 mt-1">75% du CA</div>
+                        </div>
+                        <div class="liquid-card rounded-xl p-4 border-l-4 border-liquid-cta">
+                            <div class="text-liquid-subtle text-xs mb-1">Paiements recus</div>
+                            <div class="text-2xl font-bold text-liquid-cta">3 500 €</div>
+                            <div class="text-xs text-amber-400 mt-1">2 188 € en attente</div>
+                        </div>
+                    </div>
+
+                    <!-- Chart and Services -->
+                    <div class="grid md:grid-cols-2 gap-6">
+                        <!-- Chart -->
+                        <div class="liquid-card rounded-xl p-5">
+                            <h4 class="text-white font-semibold mb-4">Evolution des revenus</h4>
+                            <div class="h-40 flex items-end justify-around gap-3">
+                                <div class="flex flex-col items-center gap-1">
+                                    <div class="w-10 bg-gradient-to-t from-liquid-primary to-liquid-cta rounded-t-lg" style="height: 50%;"></div>
+                                    <span class="text-xs text-liquid-subtle">Jan</span>
+                                </div>
+                                <div class="flex flex-col items-center gap-1">
+                                    <div class="w-10 bg-gradient-to-t from-liquid-primary to-liquid-cta rounded-t-lg" style="height: 65%;"></div>
+                                    <span class="text-xs text-liquid-subtle">Fev</span>
+                                </div>
+                                <div class="flex flex-col items-center gap-1">
+                                    <div class="w-10 bg-gradient-to-t from-liquid-primary to-liquid-cta rounded-t-lg" style="height: 45%;"></div>
+                                    <span class="text-xs text-liquid-subtle">Mar</span>
+                                </div>
+                                <div class="flex flex-col items-center gap-1">
+                                    <div class="w-10 bg-gradient-to-t from-liquid-primary to-liquid-cta rounded-t-lg" style="height: 80%;"></div>
+                                    <span class="text-xs text-liquid-subtle">Avr</span>
+                                </div>
+                                <div class="flex flex-col items-center gap-1">
+                                    <div class="w-10 bg-gradient-to-t from-liquid-primary to-liquid-cta rounded-t-lg" style="height: 70%;"></div>
+                                    <span class="text-xs text-liquid-subtle">Mai</span>
+                                </div>
+                                <div class="flex flex-col items-center gap-1">
+                                    <div class="w-10 bg-gradient-to-t from-liquid-primary to-liquid-cta rounded-t-lg animate-glow" style="height: 100%;"></div>
+                                    <span class="text-xs text-liquid-primary">Juin</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Services list -->
+                        <div class="liquid-card rounded-xl p-5">
+                            <h4 class="text-white font-semibold mb-4">Mes services</h4>
+                            <div class="space-y-3">
+                                <div class="flex items-center justify-between p-3 liquid-glass rounded-lg">
+                                    <div>
+                                        <div class="text-white text-sm font-medium">Developpement Web</div>
+                                        <div class="text-liquid-subtle text-xs">500€ x 6 / mois</div>
+                                    </div>
+                                    <div class="text-liquid-primary font-bold">3 000 €</div>
+                                </div>
+                                <div class="flex items-center justify-between p-3 liquid-glass rounded-lg">
+                                    <div>
+                                        <div class="text-white text-sm font-medium">Maintenance</div>
+                                        <div class="text-liquid-subtle text-xs">250€ x 5 / mois</div>
+                                    </div>
+                                    <div class="text-liquid-primary font-bold">1 250 €</div>
+                                </div>
+                                <div class="flex items-center justify-between p-3 liquid-glass rounded-lg">
+                                    <div>
+                                        <div class="text-white text-sm font-medium">Consulting</div>
+                                        <div class="text-liquid-subtle text-xs">100€ x 20h / mois</div>
+                                    </div>
+                                    <div class="text-liquid-primary font-bold">2 000 €</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA / Download Section -->
+    <section id="download" class="py-24 relative">
+        <div class="absolute inset-0 overflow-hidden">
+            <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[800px] bg-liquid-primary/10 rounded-full blur-3xl"></div>
+        </div>
+
+        <div class="max-w-4xl mx-auto px-6 text-center relative z-10">
+            <h2 class="text-4xl lg:text-5xl font-bold mb-6">
+                Pret a maitriser vos
+                <span class="text-liquid-primary text-glow-gold">finances</span> ?
+            </h2>
+            <p class="text-xl text-liquid-muted mb-10 max-w-2xl mx-auto">
+                Telechargez CashProfit gratuitement et commencez a simuler vos revenus des maintenant.
+            </p>
+
+            <div class="flex flex-wrap justify-center gap-4 mb-12">
+                <a href="https://github.com/abwebcraftdev/CashProfit/releases/latest" class="flex items-center gap-3 px-8 py-4 rounded-2xl gradient-gold-violet font-semibold text-lg hover:scale-105 transition-all duration-300 glow-gold">
+                    <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24">
+                        <path d="M12 2C6.477 2 2 6.477 2 12c0 4.42 2.865 8.166 6.839 9.489.5.092.682-.217.682-.482 0-.237-.008-.866-.013-1.7-2.782.604-3.369-1.341-3.369-1.341-.454-1.155-1.11-1.462-1.11-1.462-.908-.62.069-.608.069-.608 1.003.07 1.531 1.03 1.531 1.03.892 1.529 2.341 1.087 2.91.831.092-.646.35-1.086.636-1.336-2.22-.253-4.555-1.11-4.555-4.943 0-1.091.39-1.984 1.029-2.683-.103-.253-.446-1.27.098-2.647 0 0 .84-.269 2.75 1.025A9.578 9.578 0 0112 6.836c.85.004 1.705.114 2.504.336 1.909-1.294 2.747-1.025 2.747-1.025.546 1.377.203 2.394.1 2.647.64.699 1.028 1.592 1.028 2.683 0 3.842-2.339 4.687-4.566 4.935.359.309.678.919.678 1.852 0 1.336-.012 2.415-.012 2.743 0 .267.18.578.688.48C19.138 20.163 22 16.418 22 12c0-5.523-4.477-10-10-10z"></path>
+                    </svg>
+                    Telecharger sur GitHub
+                </a>
+            </div>
+
+            <div class="flex flex-wrap justify-center gap-8 text-liquid-muted">
+                <div class="flex items-center gap-2">
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.75 17L9 20l-1 1h8l-1-1-.75-3M3 13h18M5 17h14a2 2 0 002-2V5a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"></path>
+                    </svg>
+                    macOS
+                </div>
+                <div class="flex items-center gap-2">
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.75 17L9 20l-1 1h8l-1-1-.75-3M3 13h18M5 17h14a2 2 0 002-2V5a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"></path>
+                    </svg>
+                    Windows
+                </div>
+                <div class="flex items-center gap-2">
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.75 17L9 20l-1 1h8l-1-1-.75-3M3 13h18M5 17h14a2 2 0 002-2V5a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"></path>
+                    </svg>
+                    Linux
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="py-12 border-t border-liquid">
+        <div class="max-w-7xl mx-auto px-6">
+            <div class="flex flex-col md:flex-row items-center justify-between gap-6">
+                <div class="flex items-center gap-3">
+                    <div class="w-8 h-8 rounded-lg gradient-gold-violet flex items-center justify-center font-bold">
+                        C
+                    </div>
+                    <span class="font-bold text-liquid-primary">CashProfit</span>
+                </div>
+                <div class="flex items-center gap-6 text-liquid-muted text-sm">
+                    <a href="https://github.com/abwebcraftdev/CashProfit" class="hover:text-liquid-primary transition">GitHub</a>
+                    <span class="text-liquid-subtle">v1.1.0</span>
+                </div>
+                <div class="text-liquid-subtle text-sm">
+                    © 2025 CashProfit. Open source.
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Smooth scroll -->
+    <script>
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                document.querySelector(this.getAttribute('href')).scrollIntoView({
+                    behavior: 'smooth'
+                });
+            });
+        });
+    </script>
+</body>
+</html>
