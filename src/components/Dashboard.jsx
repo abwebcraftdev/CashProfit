@@ -1,6 +1,6 @@
 import React, { useMemo, useState, useEffect } from 'react';
 import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer } from 'recharts';
-import { Settings, X, Check, Calculator, TrendingUp } from 'lucide-react';
+import { Settings, X, Check, Calculator, TrendingUp, Wallet, Receipt, PiggyBank, Clock } from 'lucide-react';
 import {
     aggregateDashboardData,
     aggregateMonthlyData,
@@ -220,6 +220,47 @@ export default function Dashboard({ simulations }) {
         }
     }, [granularity, monthlyData, quarterlyData, yearlyData]);
 
+    // Calcul des totaux mensuels pour les cartes métriques
+    const monthlyTotals = useMemo(() => {
+        const currentMonth = new Date().getMonth();
+        const currentMonthData = monthlyData[currentMonth] || { Revenue: 0, Charges: 0, Net: 0 };
+
+        // Calculer les paiements reçus et en attente depuis les services
+        let paymentsReceived = 0;
+        let paymentsPending = 0;
+
+        filteredSimulations.forEach(sim => {
+            sim.services?.forEach(service => {
+                service.payments?.forEach(payment => {
+                    const amount = payment.percentage
+                        ? (service.price * service.quantity * (payment.percentage / 100))
+                        : (payment.amount || 0);
+
+                    if (payment.status === 'received') {
+                        paymentsReceived += amount;
+                    } else if (payment.status === 'pending') {
+                        paymentsPending += amount;
+                    }
+                });
+            });
+        });
+
+        // Calculer le % de variation (simulation)
+        const prevMonthData = monthlyData[currentMonth - 1] || { Revenue: 0, Net: 0 };
+        const revenueChange = prevMonthData.Revenue > 0
+            ? Math.round(((currentMonthData.Revenue - prevMonthData.Revenue) / prevMonthData.Revenue) * 100)
+            : 0;
+
+        return {
+            revenue: currentMonthData.Revenue || 0,
+            charges: currentMonthData.Charges || 0,
+            net: currentMonthData.Net || 0,
+            paymentsReceived,
+            paymentsPending,
+            revenueChange
+        };
+    }, [monthlyData, filteredSimulations]);
+
     const formatEuro = (value) => {
         return new Intl.NumberFormat('fr-FR', {
             style: 'currency',
@@ -425,6 +466,79 @@ export default function Dashboard({ simulations }) {
                         </div>
                     </div>
                 )}
+            </div>
+
+            {/* Cartes métriques principales */}
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+                {/* CA Total */}
+                <div className="liquid-card rounded-xl p-5 border-l-4 border-liquid-primary group hover:scale-[1.02] transition-transform">
+                    <div className="flex items-start justify-between">
+                        <div>
+                            <p className="text-liquid-subtle text-xs font-medium uppercase tracking-wide mb-1">CA Total / mois</p>
+                            <p className="text-3xl font-bold text-liquid-primary text-glow-gold">{formatEuro(monthlyTotals.revenue)}</p>
+                            {monthlyTotals.revenueChange !== 0 && (
+                                <p className={`text-xs mt-2 flex items-center gap-1 ${monthlyTotals.revenueChange > 0 ? 'text-emerald-400' : 'text-red-400'}`}>
+                                    <TrendingUp className={`w-3 h-3 ${monthlyTotals.revenueChange < 0 ? 'rotate-180' : ''}`} />
+                                    {monthlyTotals.revenueChange > 0 ? '+' : ''}{monthlyTotals.revenueChange}% vs mois dernier
+                                </p>
+                            )}
+                        </div>
+                        <div className="p-3 liquid-glass rounded-xl group-hover:bg-liquid-primary/20 transition">
+                            <Wallet className="w-6 h-6 text-liquid-primary" />
+                        </div>
+                    </div>
+                </div>
+
+                {/* Charges sociales */}
+                <div className="liquid-card rounded-xl p-5 border-l-4 border-red-400 group hover:scale-[1.02] transition-transform">
+                    <div className="flex items-start justify-between">
+                        <div>
+                            <p className="text-liquid-subtle text-xs font-medium uppercase tracking-wide mb-1">Charges sociales</p>
+                            <p className="text-3xl font-bold text-red-400">- {formatEuro(monthlyTotals.charges)}</p>
+                            <p className="text-xs mt-2 text-liquid-subtle">
+                                {monthlyTotals.revenue > 0 ? Math.round((monthlyTotals.charges / monthlyTotals.revenue) * 100) : 0}% du CA
+                            </p>
+                        </div>
+                        <div className="p-3 liquid-glass rounded-xl group-hover:bg-red-500/20 transition">
+                            <Receipt className="w-6 h-6 text-red-400" />
+                        </div>
+                    </div>
+                </div>
+
+                {/* Bénéfice net */}
+                <div className="liquid-card rounded-xl p-5 border-l-4 border-emerald-400 group hover:scale-[1.02] transition-transform">
+                    <div className="flex items-start justify-between">
+                        <div>
+                            <p className="text-liquid-subtle text-xs font-medium uppercase tracking-wide mb-1">Benefice net</p>
+                            <p className="text-3xl font-bold text-emerald-400">{formatEuro(monthlyTotals.net)}</p>
+                            <p className="text-xs mt-2 text-emerald-400">
+                                {monthlyTotals.revenue > 0 ? Math.round((monthlyTotals.net / monthlyTotals.revenue) * 100) : 0}% du CA
+                            </p>
+                        </div>
+                        <div className="p-3 liquid-glass rounded-xl group-hover:bg-emerald-500/20 transition">
+                            <PiggyBank className="w-6 h-6 text-emerald-400" />
+                        </div>
+                    </div>
+                </div>
+
+                {/* Paiements reçus */}
+                <div className="liquid-card rounded-xl p-5 border-l-4 border-liquid-cta group hover:scale-[1.02] transition-transform">
+                    <div className="flex items-start justify-between">
+                        <div>
+                            <p className="text-liquid-subtle text-xs font-medium uppercase tracking-wide mb-1">Paiements recus</p>
+                            <p className="text-3xl font-bold text-liquid-cta text-glow-violet">{formatEuro(monthlyTotals.paymentsReceived)}</p>
+                            {monthlyTotals.paymentsPending > 0 && (
+                                <p className="text-xs mt-2 text-amber-400 flex items-center gap-1">
+                                    <Clock className="w-3 h-3" />
+                                    {formatEuro(monthlyTotals.paymentsPending)} en attente
+                                </p>
+                            )}
+                        </div>
+                        <div className="p-3 liquid-glass rounded-xl group-hover:bg-liquid-cta/20 transition">
+                            <Check className="w-6 h-6 text-liquid-cta" />
+                        </div>
+                    </div>
+                </div>
             </div>
 
             {/* Toggle Mode Projet / Comptable */}
