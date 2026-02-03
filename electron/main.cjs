@@ -107,7 +107,7 @@ function createWindow() {
         width: 1200,
         height: 800,
         title: 'CashProfit',
-        icon: path.join(__dirname, '../assets/icon.png'),
+        icon: path.join(__dirname, '../assets/icon.jpeg'),
         webPreferences: {
             preload: path.join(__dirname, 'preload.cjs'),
             nodeIntegration: false,
