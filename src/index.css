@@ -1,3 +1,6 @@
+/* Typography - DM Sans */
+@import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&display=swap');
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
@@ -32,9 +35,6 @@
   --transition-fluid: 400ms cubic-bezier(0.4, 0, 0.2, 1);
   --transition-morph: 600ms cubic-bezier(0.34, 1.56, 0.64, 1);
 }
-
-/* Typography - DM Sans */
-@import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&display=swap');
 
 body {
   font-family: 'DM Sans', -apple-system, BlinkMacSystemFont, sans-serif;
@@ -102,6 +102,13 @@ body {
     );
     opacity: 0;
     transition: opacity var(--transition-fluid);
+    pointer-events: none; /* Fix: allow clicks through */
+    z-index: 0;
+  }
+
+  .liquid-card > * {
+    position: relative;
+    z-index: 1;
   }
 
   .liquid-card:hover {
@@ -293,6 +300,48 @@ body {
   ::-webkit-scrollbar-thumb:hover {
     background: rgba(255, 255, 255, 0.2);
   }
+}
+
+/* Number input spinners styling */
+input[type="number"] {
+  -moz-appearance: textfield;
+}
+
+input[type="number"]::-webkit-outer-spin-button,
+input[type="number"]::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+/* Custom number input with styled controls */
+.liquid-input[type="number"] {
+  position: relative;
+}
+
+/* Date input styling */
+input[type="date"] {
+  color-scheme: dark;
+}
+
+input[type="date"]::-webkit-calendar-picker-indicator {
+  filter: invert(0.7);
+  cursor: pointer;
+  opacity: 0.6;
+  transition: opacity 0.2s;
+}
+
+input[type="date"]::-webkit-calendar-picker-indicator:hover {
+  opacity: 1;
+}
+
+/* Checkbox styling */
+input[type="checkbox"] {
+  accent-color: var(--liquid-primary);
+}
+
+/* Radio styling */
+input[type="radio"] {
+  accent-color: var(--liquid-primary);
 }
 
 /* Utility classes */

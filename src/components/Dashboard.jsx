@@ -220,10 +220,27 @@ export default function Dashboard({ simulations }) {
         }
     }, [granularity, monthlyData, quarterlyData, yearlyData]);
 
-    // Calcul des totaux mensuels pour les cartes métriques
-    const monthlyTotals = useMemo(() => {
+    // Calcul des totaux pour les cartes métriques (adapté à la granularité)
+    const metricsTotals = useMemo(() => {
+        let currentData = { Revenue: 0, Charges: 0, Net: 0 };
+        let prevData = { Revenue: 0, Charges: 0, Net: 0 };
+        let periodLabel = 'mois';
+
         const currentMonth = new Date().getMonth();
-        const currentMonthData = monthlyData[currentMonth] || { Revenue: 0, Charges: 0, Net: 0 };
+        const currentQuarter = Math.floor(currentMonth / 3);
+
+        if (granularity === 'month') {
+            currentData = monthlyData[currentMonth] || { Revenue: 0, Charges: 0, Net: 0 };
+            prevData = monthlyData[currentMonth - 1] || { Revenue: 0, Charges: 0, Net: 0 };
+            periodLabel = 'mois';
+        } else if (granularity === 'quarter') {
+            currentData = quarterlyData[currentQuarter] || { Revenue: 0, Charges: 0, Net: 0 };
+            prevData = quarterlyData[currentQuarter - 1] || { Revenue: 0, Charges: 0, Net: 0 };
+            periodLabel = 'trimestre';
+        } else if (granularity === 'year') {
+            currentData = yearlyData[0] || { Revenue: 0, Charges: 0, Net: 0 };
+            periodLabel = 'annee';
+        }
 
         // Calculer les paiements reçus et en attente depuis les services
         let paymentsReceived = 0;
@@ -245,21 +262,21 @@ export default function Dashboard({ simulations }) {
             });
         });
 
-        // Calculer le % de variation (simulation)
-        const prevMonthData = monthlyData[currentMonth - 1] || { Revenue: 0, Net: 0 };
-        const revenueChange = prevMonthData.Revenue > 0
-            ? Math.round(((currentMonthData.Revenue - prevMonthData.Revenue) / prevMonthData.Revenue) * 100)
+        // Calculer le % de variation
+        const revenueChange = prevData.Revenue > 0
+            ? Math.round(((currentData.Revenue - prevData.Revenue) / prevData.Revenue) * 100)
             : 0;
 
         return {
-            revenue: currentMonthData.Revenue || 0,
-            charges: currentMonthData.Charges || 0,
-            net: currentMonthData.Net || 0,
+            revenue: currentData.Revenue || 0,
+            charges: currentData.Charges || 0,
+            net: currentData.Net || 0,
             paymentsReceived,
             paymentsPending,
-            revenueChange
+            revenueChange,
+            periodLabel
         };
-    }, [monthlyData, filteredSimulations]);
+    }, [monthlyData, quarterlyData, yearlyData, granularity, filteredSimulations]);
 
     const formatEuro = (value) => {
         return new Intl.NumberFormat('fr-FR', {
@@ -474,12 +491,12 @@ export default function Dashboard({ simulations }) {
                 <div className="liquid-card rounded-xl p-5 border-l-4 border-liquid-primary group hover:scale-[1.02] transition-transform">
                     <div className="flex items-start justify-between">
                         <div>
-                            <p className="text-liquid-subtle text-xs font-medium uppercase tracking-wide mb-1">CA Total / mois</p>
-                            <p className="text-3xl font-bold text-liquid-primary text-glow-gold">{formatEuro(monthlyTotals.revenue)}</p>
-                            {monthlyTotals.revenueChange !== 0 && (
-                                <p className={`text-xs mt-2 flex items-center gap-1 ${monthlyTotals.revenueChange > 0 ? 'text-emerald-400' : 'text-red-400'}`}>
-                                    <TrendingUp className={`w-3 h-3 ${monthlyTotals.revenueChange < 0 ? 'rotate-180' : ''}`} />
-                                    {monthlyTotals.revenueChange > 0 ? '+' : ''}{monthlyTotals.revenueChange}% vs mois dernier
+                            <p className="text-liquid-subtle text-xs font-medium uppercase tracking-wide mb-1">CA Total / {metricsTotals.periodLabel}</p>
+                            <p className="text-3xl font-bold text-liquid-primary text-glow-gold">{formatEuro(metricsTotals.revenue)}</p>
+                            {metricsTotals.revenueChange !== 0 && granularity !== 'year' && (
+                                <p className={`text-xs mt-2 flex items-center gap-1 ${metricsTotals.revenueChange > 0 ? 'text-emerald-400' : 'text-red-400'}`}>
+                                    <TrendingUp className={`w-3 h-3 ${metricsTotals.revenueChange < 0 ? 'rotate-180' : ''}`} />
+                                    {metricsTotals.revenueChange > 0 ? '+' : ''}{metricsTotals.revenueChange}% vs {metricsTotals.periodLabel} dernier
                                 </p>
                             )}
                         </div>
@@ -494,9 +511,9 @@ export default function Dashboard({ simulations }) {
                     <div className="flex items-start justify-between">
                         <div>
                             <p className="text-liquid-subtle text-xs font-medium uppercase tracking-wide mb-1">Charges sociales</p>
-                            <p className="text-3xl font-bold text-red-400">- {formatEuro(monthlyTotals.charges)}</p>
+                            <p className="text-3xl font-bold text-red-400">- {formatEuro(metricsTotals.charges)}</p>
                             <p className="text-xs mt-2 text-liquid-subtle">
-                                {monthlyTotals.revenue > 0 ? Math.round((monthlyTotals.charges / monthlyTotals.revenue) * 100) : 0}% du CA
+                                {metricsTotals.revenue > 0 ? Math.round((metricsTotals.charges / metricsTotals.revenue) * 100) : 0}% du CA
                             </p>
                         </div>
                         <div className="p-3 liquid-glass rounded-xl group-hover:bg-red-500/20 transition">
@@ -510,9 +527,9 @@ export default function Dashboard({ simulations }) {
                     <div className="flex items-start justify-between">
                         <div>
                             <p className="text-liquid-subtle text-xs font-medium uppercase tracking-wide mb-1">Benefice net</p>
-                            <p className="text-3xl font-bold text-emerald-400">{formatEuro(monthlyTotals.net)}</p>
+                            <p className="text-3xl font-bold text-emerald-400">{formatEuro(metricsTotals.net)}</p>
                             <p className="text-xs mt-2 text-emerald-400">
-                                {monthlyTotals.revenue > 0 ? Math.round((monthlyTotals.net / monthlyTotals.revenue) * 100) : 0}% du CA
+                                {metricsTotals.revenue > 0 ? Math.round((metricsTotals.net / metricsTotals.revenue) * 100) : 0}% du CA
                             </p>
                         </div>
                         <div className="p-3 liquid-glass rounded-xl group-hover:bg-emerald-500/20 transition">
@@ -526,11 +543,11 @@ export default function Dashboard({ simulations }) {
                     <div className="flex items-start justify-between">
                         <div>
                             <p className="text-liquid-subtle text-xs font-medium uppercase tracking-wide mb-1">Paiements recus</p>
-                            <p className="text-3xl font-bold text-liquid-cta text-glow-violet">{formatEuro(monthlyTotals.paymentsReceived)}</p>
-                            {monthlyTotals.paymentsPending > 0 && (
+                            <p className="text-3xl font-bold text-liquid-cta text-glow-violet">{formatEuro(metricsTotals.paymentsReceived)}</p>
+                            {metricsTotals.paymentsPending > 0 && (
                                 <p className="text-xs mt-2 text-amber-400 flex items-center gap-1">
                                     <Clock className="w-3 h-3" />
-                                    {formatEuro(monthlyTotals.paymentsPending)} en attente
+                                    {formatEuro(metricsTotals.paymentsPending)} en attente
                                 </p>
                             )}
                         </div>
